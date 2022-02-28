@@ -5,7 +5,8 @@
 ## Implementation 1 : Topological Sort
 ```java
 class Solution {
-    public List<String> findAllRecipes(String[] recipes, List<List<String>> ingredients, String[] supplies) {
+    public List<String> findAllRecipes(String[] recipes, List<List<String>> ingredients, 
+    String[] supplies) {
         List<String> result = new ArrayList<>();
         Queue<String> q = new ArrayDeque<>();
         for(String supply : supplies) {
