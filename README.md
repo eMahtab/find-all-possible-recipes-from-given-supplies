@@ -5,28 +5,29 @@
 ## Implementation 1 : Topological Sort
 ```java
 class Solution {
-    public List<String> findAllRecipes(String[] recipes, List<List<String>> ingredients, 
-    String[] supplies) {
-        List<String> result = new ArrayList<>();
-        Queue<String> q = new ArrayDeque<>();
-        for(String supply : supplies) {
-            q.add(supply);
-        }
+    public List<String> findAllRecipes(String[] recipes, List<List<String>> ingredients, String[] supplies) {
         Map<String,Set<String>> map = new HashMap<>();
         for(int i = 0; i < recipes.length; i++) {
-            map.putIfAbsent(recipes[i], new HashSet<String>());
-            for(String ingredient : ingredients.get(i)) {
-                map.get(recipes[i]).add(ingredient);
+            String recipe = recipes[i];
+            map.putIfAbsent(recipe, new HashSet<String>());
+            List<String> items = ingredients.get(i);
+            for(String item : items) {
+                map.get(recipe).add(item);
             }
         }
-        while(!q.isEmpty()) {
-            String ingredient = q.remove();
+        List<String> result = new ArrayList<String>();
+        Queue<String> queue = new LinkedList<>();
+        for(String supply : supplies)
+           queue.add(supply);
+        while(!queue.isEmpty()) {
+            String supply = queue.remove();
             for(String recipe : map.keySet()) {
-                if(map.get(recipe).contains(ingredient)) {
-                    map.get(recipe).remove(ingredient);
-                    if(map.get(recipe).size() == 0) {
+                Set<String> items = map.get(recipe);
+                if(items.contains(supply)) {
+                    items.remove(supply);
+                    if(items.size() == 0) {
                         result.add(recipe);
-                        q.add(recipe);
+                        queue.add(recipe);
                     }
                 }
             }
